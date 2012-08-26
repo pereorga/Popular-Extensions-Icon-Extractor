@@ -16,23 +16,23 @@ Requirements
 + [IconsExtract](http://www.nirsoft.net/utils/iconsext.html)
 + [FileTypesMan](http://www.nirsoft.net/utils/file_types_manager.html)
 
-Put filetypesman.exe and iconsext.exe in this folder
+Put filetypesman.exe and iconsext.exe in this folder.
 
 
 Author
 ------
 
-**Pere Orga** <pere@orga.cat>
+**Pere Orga**, <pere@orga.cat>
 
 
 Copyright and license
 ---------------------
 
-Copyright 2012 Pere Orga
+Copyright 2012, Pere Orga
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this work except in compliance with the License.
-You may obtain a copy of the License in the LICENSE file, or at:
+You may obtain a copy of the License at:
 
    http://www.apache.org/licenses/LICENSE-2.0
 
