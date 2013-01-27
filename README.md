@@ -1,9 +1,9 @@
 Popular Extensions Icon Extractor
 =================================
 
-Simple Python script that extracts icons from the associated extensions of a Windows installation. It also converts them to PNG.
+Simple Python script for Windows that extracts the icons of the extensions that have a default icon associated. It also converts them to PNG (48x48).
 
-I coded it to get a set of popular icons of the common extensions, for use in [Infinite Web Folders](https://github.com/pereorga/infinite-web-folders)
+I coded it to get a set of popular icons of the common extensions, for use them in [Infinite Web Folders](https://github.com/pereorga/infinite-web-folders)
 
 
 Requirements
