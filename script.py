@@ -14,7 +14,6 @@ from xml.dom.minidom import parse
 
 
 def choose_icon(extension, icon_number):
-
     if os.listdir('tmp/ex/' + extension):
         if icon_number >= 0:
             icon_number += 1
@@ -29,13 +28,13 @@ def choose_icon(extension, icon_number):
             if '_' + str(icon_number) + '.' in f:
                 found = True
                 break
-            elif icon_number > 0 and i == icon_number - 1:
+            elif i == icon_number - 1:
                 aux = file_name
             i += 1
 
         if not found and aux:
             file_name = aux
-            
+
         shutil.copy(file_name, 'icons/' + extension.lower() + '.ico')
 
 
