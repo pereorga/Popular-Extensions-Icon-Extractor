@@ -58,11 +58,13 @@ def create_temp_directory():
 
 
 def main():
-    try:
-        shutil.rmtree('icons')
-    except:
-        pass
-    os.mkdir('icons')
+    if os.path.exists('icons') and os.listdir('icons'):
+        sys.stderr.write("'icons' directory exists and is not empty. Please remove it first.\n")
+        exit(1)
+
+    # Create icons directory
+    if not os.path.exists('icons'):
+        os.mkdir('icons')
 
     tmp_dir = create_temp_directory()
     xml_file = os.path.join(tmp_dir, 'list.xml')
