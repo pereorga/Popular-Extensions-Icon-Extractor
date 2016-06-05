@@ -61,6 +61,28 @@ def create_temp_directory():
     return tmp_dir
 
 
+def download_filetypesman(path):
+    urllib.urlretrieve('http://www.nirsoft.net/utils/filetypesman.zip', os.path.join(path, 'filetypesman.zip'))
+    zip_file = zipfile.ZipFile(os.path.join(path, 'filetypesman.zip'))
+    for name in zip_file.namelist():
+        if name.lower() == 'filetypesman.exe':
+            zip_file.extract(name, path)
+            break
+    zip_file.close()
+    os.remove(os.path.join(path, 'filetypesman.zip'))
+
+
+def download_iconsext(path):
+    urllib.urlretrieve('http://www.nirsoft.net/utils/iconsext.zip', os.path.join(path, 'iconsext.zip'))
+    zip_file = zipfile.ZipFile(os.path.join(path, 'iconsext.zip'))
+    for name in zip_file.namelist():
+        if name.lower() == 'iconsext.exe':
+            zip_file.extract(name, path)
+            break
+    zip_file.close()
+    os.remove(os.path.join(path, 'iconsext.zip'))
+
+
 def main():
     if os.path.exists('icons') and os.listdir('icons'):
         sys.stderr.write("'icons' directory exists and is not empty. Please remove it first.\n")
@@ -71,26 +93,12 @@ def main():
         os.mkdir('icons')
 
     script_path = os.path.dirname(os.path.abspath(__file__))
-
     if not os.path.exists('FileTypesMan.exe'):
         print('FileTypesMan.exe not found. Trying to download it.')
-        urllib.urlretrieve('http://www.nirsoft.net/utils/filetypesman.zip', os.path.join(script_path, 'filetypesman.zip'))
-        zfile = zipfile.ZipFile(os.path.join(script_path, 'filetypesman.zip'))
-        for name in zfile.namelist():
-            if name.lower() == 'filetypesman.exe':
-                zfile.extract(name, script_path)
-                break
-        zfile.close()
-
+        download_filetypesman(script_path)
     if not os.path.exists('iconsext.exe'):
         print('iconsext.exe not found. Trying to download it.')
-        urllib.urlretrieve('http://www.nirsoft.net/utils/iconsext.zip', os.path.join(script_path, 'iconsext.zip'))
-        zfile = zipfile.ZipFile(os.path.join(script_path, 'iconsext.zip'))
-        for name in zfile.namelist():
-            if name.lower() == 'iconsext.exe':
-                zfile.extract(name, script_path)
-                break
-        zfile.close()
+        download_iconsext(script_path)
 
     tmp_dir = create_temp_directory()
     xml_file = os.path.join(tmp_dir, 'list.xml')
