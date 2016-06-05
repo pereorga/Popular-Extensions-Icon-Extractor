@@ -44,6 +44,7 @@ def icon_extract(resource, extension):
 
 
 def get_temp_directory():
+    """Get temporary directory name"""
     return os.path.join(tempfile.gettempdir(), 'iconsextractor')
 
 
@@ -133,6 +134,8 @@ def main():
 
                         choose_icon(extension, resource_number)
 
+    # Delete temporary directory
+    shutil.rmtree(get_temp_directory())
 
 if __name__ == '__main__':
     main()
