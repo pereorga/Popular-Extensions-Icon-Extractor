@@ -9,7 +9,6 @@ from xml.dom.minidom import parse
 # TODO:
 #   windows only
 #   Python 3 support
-#   Ensure script can run from different directories
 #   Add output directory option
 #   better error and exception handling
 
@@ -43,8 +42,9 @@ def choose_icon(extension, icon_number):
 
 def icon_extract(resource, extension):
     """Extract icons from resource"""
+    path = os.path.dirname(os.path.abspath(__file__))
     extension_dir = os.path.join(get_temp_directory(), extension)
-    return os.system('iconsext.exe /save \"' + resource + '\" \"' + extension_dir + '\" -icons')
+    return os.system(os.path.join(path, 'iconsext.exe') + ' /save \"' + resource + '\" \"' + extension_dir + '\" -icons')
 
 
 def get_temp_directory():
@@ -61,7 +61,8 @@ def create_temp_directory():
     return tmp_dir
 
 
-def download_filetypesman(path):
+def download_filetypesman():
+    path = os.path.dirname(os.path.abspath(__file__))
     urllib.urlretrieve('http://www.nirsoft.net/utils/filetypesman.zip', os.path.join(path, 'filetypesman.zip'))
     zip_file = zipfile.ZipFile(os.path.join(path, 'filetypesman.zip'))
     for name in zip_file.namelist():
@@ -72,7 +73,8 @@ def download_filetypesman(path):
     os.remove(os.path.join(path, 'filetypesman.zip'))
 
 
-def download_iconsext(path):
+def download_iconsext():
+    path = os.path.dirname(os.path.abspath(__file__))
     urllib.urlretrieve('http://www.nirsoft.net/utils/iconsext.zip', os.path.join(path, 'iconsext.zip'))
     zip_file = zipfile.ZipFile(os.path.join(path, 'iconsext.zip'))
     for name in zip_file.namelist():
@@ -93,16 +95,16 @@ def main():
         os.mkdir('icons')
 
     script_path = os.path.dirname(os.path.abspath(__file__))
-    if not os.path.exists('FileTypesMan.exe'):
+    if not os.path.exists(os.path.join(script_path, 'FileTypesMan.exe')):
         print('FileTypesMan.exe not found. Trying to download it.')
-        download_filetypesman(script_path)
-    if not os.path.exists('iconsext.exe'):
+        download_filetypesman()
+    if not os.path.exists(os.path.join(script_path, 'iconsext.exe')):
         print('iconsext.exe not found. Trying to download it.')
-        download_iconsext(script_path)
+        download_iconsext()
 
     tmp_dir = create_temp_directory()
     xml_file = os.path.join(tmp_dir, 'list.xml')
-    code = os.system("filetypesman.exe /sxml " + xml_file)
+    code = os.system(os.path.join(script_path, 'filetypesman.exe') + " /sxml " + xml_file)
     if code != 0:
         sys.exit(code)
 
