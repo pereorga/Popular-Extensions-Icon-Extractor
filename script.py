@@ -7,9 +7,8 @@ from xml.dom.minidom import parse
 #   Use paths separators
 #   use temporary directory
 #   windows only
-#   comment code
 #   download tools if not available
-#   better exceptions
+#   better error exception handling
 
 
 def choose_icon(extension, icon_number):
@@ -39,7 +38,7 @@ def choose_icon(extension, icon_number):
 
 
 def icon_extract(resource, extension):
-    """Extract icons from resourc"""
+    """Extract icons from resource"""
     return os.system('iconsext.exe /save \"' + resource + '\" \"tmp\\ex\\' + extension + '\" -icons')
 
 
