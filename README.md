@@ -1,5 +1,5 @@
-Popular Extensions Icon Extractor
-=================================
+Popular Extensions Icon Extractor (iconsextract.py)
+===================================================
 
 Simple Python script for Windows that extracts the icons of the extensions that have a default icon associated.
 
@@ -9,7 +9,7 @@ I coded it to get a set of popular icons of the common extensions.
 Requirements
 ------------
 
-+ Python
++ Python (tested on 2.7)
 + [IconsExtract](http://www.nirsoft.net/utils/iconsext.html)
 + [FileTypesMan](http://www.nirsoft.net/utils/file_types_manager.html)
 

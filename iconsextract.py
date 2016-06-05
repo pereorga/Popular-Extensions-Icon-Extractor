@@ -2,11 +2,15 @@ import sys
 import os
 import shutil
 import tempfile
+import zipfile
+import urllib
 from xml.dom.minidom import parse
 
 # TODO:
 #   windows only
-#   download tools if not available
+#   Python 3 support
+#   Ensure script can run from different directories
+#   Add output directory option
 #   better error and exception handling
 
 
@@ -65,6 +69,28 @@ def main():
     # Create icons directory
     if not os.path.exists('icons'):
         os.mkdir('icons')
+
+    script_path = os.path.dirname(os.path.abspath(__file__))
+
+    if not os.path.exists('FileTypesMan.exe'):
+        print('FileTypesMan.exe not found. Trying to download it.')
+        urllib.urlretrieve('http://www.nirsoft.net/utils/filetypesman.zip', os.path.join(script_path, 'filetypesman.zip'))
+        zfile = zipfile.ZipFile(os.path.join(script_path, 'filetypesman.zip'))
+        for name in zfile.namelist():
+            if name.lower() == 'filetypesman.exe':
+                zfile.extract(name, script_path)
+                break
+        zfile.close()
+
+    if not os.path.exists('iconsext.exe'):
+        print('iconsext.exe not found. Trying to download it.')
+        urllib.urlretrieve('http://www.nirsoft.net/utils/iconsext.zip', os.path.join(script_path, 'iconsext.zip'))
+        zfile = zipfile.ZipFile(os.path.join(script_path, 'iconsext.zip'))
+        for name in zfile.namelist():
+            if name.lower() == 'iconsext.exe':
+                zfile.extract(name, script_path)
+                break
+        zfile.close()
 
     tmp_dir = create_temp_directory()
     xml_file = os.path.join(tmp_dir, 'list.xml')
