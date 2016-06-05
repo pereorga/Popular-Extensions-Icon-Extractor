@@ -14,6 +14,7 @@ from xml.dom.minidom import parse
 
 
 def choose_icon(extension, icon_number):
+    """Choose an icon using its resource number."""
     if os.listdir('tmp/ex/' + extension):
         if icon_number >= 0:
             icon_number += 1
@@ -38,8 +39,9 @@ def choose_icon(extension, icon_number):
         shutil.copy(file_name, 'icons/' + extension.lower() + '.ico')
 
 
-def icon_extract(icon, extension):
-    return os.system('iconsext.exe /save \"' + icon + '\" \"tmp\\ex\\' + extension + '\" -icons')
+def icon_extract(resource, extension):
+    """Extract icons from resourc"""
+    return os.system('iconsext.exe /save \"' + resource + '\" \"tmp\\ex\\' + extension + '\" -icons')
 
 try:
     shutil.rmtree('tmp')
