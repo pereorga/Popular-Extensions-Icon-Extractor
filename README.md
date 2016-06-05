@@ -1,7 +1,7 @@
 Popular Extensions Icon Extractor
 =================================
 
-Simple Python script for Windows that extracts the icons of the extensions that have a default icon associated. It also converts them to PNG (48x48).
+Simple Python script for Windows that extracts the icons of the extensions that have a default icon associated.
 
 I coded it to get a set of popular icons of the common extensions.
 
@@ -9,14 +9,11 @@ I coded it to get a set of popular icons of the common extensions.
 Requirements
 ------------
 
-+ Windows
 + Python
-+ Python Imaging Library (PIL)
-+ [Imagemagick (convert.exe)](http://www.imagemagick.org)
 + [IconsExtract](http://www.nirsoft.net/utils/iconsext.html)
 + [FileTypesMan](http://www.nirsoft.net/utils/file_types_manager.html)
 
-Put filetypesman.exe and iconsext.exe in this folder.
+Put FileTypesMan.exe and iconsext.exe in this directory.
 
 
 Copyright and license
