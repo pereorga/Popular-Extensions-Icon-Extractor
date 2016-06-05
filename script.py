@@ -1,19 +1,19 @@
 import sys
 import os
 import shutil
+import tempfile
 from xml.dom.minidom import parse
 
 # TODO:
-#   Use paths separators
-#   use temporary directory
 #   windows only
 #   download tools if not available
-#   better error exception handling
+#   better error and exception handling
 
 
 def choose_icon(extension, icon_number):
     """Choose an icon using its resource number."""
-    if os.listdir('tmp/ex/' + extension):
+    extension_dir = os.path.join(get_temp_directory(), extension)
+    if os.listdir(extension_dir):
         if icon_number >= 0:
             icon_number += 1
         elif icon_number < 0:
@@ -22,8 +22,8 @@ def choose_icon(extension, icon_number):
         aux = None
         found = False
         i = 0
-        for f in os.listdir('tmp/ex/' + extension):
-            file_name = 'tmp/ex/' + extension + '/' + f
+        for f in os.listdir(extension_dir):
+            file_name = os.path.join(extension_dir, f)
             if '_' + str(icon_number) + '.' in f:
                 found = True
                 break
@@ -34,32 +34,42 @@ def choose_icon(extension, icon_number):
         if not found and aux:
             file_name = aux
 
-        shutil.copy(file_name, 'icons/' + extension.lower() + '.ico')
+        shutil.copy(file_name, os.path.join('icons', extension.lower() + '.ico'))
 
 
 def icon_extract(resource, extension):
     """Extract icons from resource"""
-    return os.system('iconsext.exe /save \"' + resource + '\" \"tmp\\ex\\' + extension + '\" -icons')
+    extension_dir = os.path.join(get_temp_directory(), extension)
+    return os.system('iconsext.exe /save \"' + resource + '\" \"' + extension_dir + '\" -icons')
+
+
+def get_temp_directory():
+    return os.path.join(tempfile.gettempdir(), 'iconsextractor')
+
+
+def create_temp_directory():
+    """Create a temporary directory and return its path. Delete any existing directories"""
+    tmp_dir = get_temp_directory()
+    if os.path.exists(tmp_dir):
+        shutil.rmtree(tmp_dir)
+    os.makedirs(tmp_dir)
+    return tmp_dir
 
 
 def main():
     try:
-        shutil.rmtree('tmp')
-    except:
-        pass
-    try:
         shutil.rmtree('icons')
     except:
         pass
-    os.mkdir('tmp')
-    os.mkdir('tmp/ex')
     os.mkdir('icons')
 
-    code = os.system("filetypesman.exe /sxml tmp/list.xml")
+    tmp_dir = create_temp_directory()
+    xml_file = os.path.join(tmp_dir, 'list.xml')
+    code = os.system("filetypesman.exe /sxml " + xml_file)
     if code != 0:
         sys.exit(code)
 
-    dom = parse('tmp/list.xml')
+    dom = parse(xml_file)
     lookup_paths = os.environ.get('PATH').split(";")
 
     for item in dom.getElementsByTagName('item'):
@@ -103,21 +113,22 @@ def main():
 
                         # Handle cases 4 and 5
                         if icon_path.lower().endswith('.ico'):
-                            shutil.copy(icon_path, 'icons/' + extension.lower() + '.ico')
+                            shutil.copy(icon_path, os.path.join('icons', extension.lower() + '.ico'))
                             break
 
                         # Try to extract the icon
-                        os.mkdir('tmp/ex/' + extension)
+                        extension_dir = os.path.join(tmp_dir, extension)
+                        os.mkdir(extension_dir)
                         icon_extract(icon_path, extension)
                         if icon_path2:
                             icon_extract(icon_path2, extension)
 
                         # If the directory is still empty and the path of the resource was relative
-                        if not os.listdir('tmp/ex/' + extension) and not os.path.isabs(icon_path):
+                        if not os.listdir(extension_dir) and not os.path.isabs(icon_path):
                             # Try again with absolute paths
                             for path_prefix in lookup_paths:
-                                icon_extract(path_prefix + '\\' + icon_path, extension)
-                                if os.listdir('tmp/ex/' + extension):
+                                icon_extract(os.path.join(path_prefix, icon_path), extension)
+                                if os.listdir(extension_dir):
                                     break
 
                         choose_icon(extension, resource_number)
