@@ -9,7 +9,7 @@ I coded it to get a set of popular icons of the common extensions.
 Requirements
 ------------
 
-+ Python (tested on 2.7)
++ Python (tested on 2.7 or 3.5)
 + [FileTypesMan](http://www.nirsoft.net/utils/file_types_manager.html)
 + [IconsExtract](http://www.nirsoft.net/utils/iconsext.html)
 
