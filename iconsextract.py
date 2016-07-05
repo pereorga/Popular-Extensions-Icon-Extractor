@@ -69,24 +69,22 @@ def create_temp_directory():
 def download_filetypesman():
     path = os.path.dirname(os.path.abspath(__file__))
     urlretrieve('http://www.nirsoft.net/utils/filetypesman.zip', os.path.join(path, 'filetypesman.zip'))
-    zip_file = zipfile.ZipFile(os.path.join(path, 'filetypesman.zip'))
-    for name in zip_file.namelist():
-        if name.lower() == 'filetypesman.exe':
-            zip_file.extract(name, path)
-            break
-    zip_file.close()
+    with zipfile.ZipFile(os.path.join(path, 'filetypesman.zip')) as zip_file:
+        for name in zip_file.namelist():
+            if name.lower() == 'filetypesman.exe':
+                zip_file.extract(name, path)
+                break
     os.remove(os.path.join(path, 'filetypesman.zip'))
 
 
 def download_iconsext():
     path = os.path.dirname(os.path.abspath(__file__))
     urlretrieve('http://www.nirsoft.net/utils/iconsext.zip', os.path.join(path, 'iconsext.zip'))
-    zip_file = zipfile.ZipFile(os.path.join(path, 'iconsext.zip'))
-    for name in zip_file.namelist():
-        if name.lower() == 'iconsext.exe':
-            zip_file.extract(name, path)
-            break
-    zip_file.close()
+    with zipfile.ZipFile(os.path.join(path, 'iconsext.zip')) as zip_file:
+        for name in zip_file.namelist():
+            if name.lower() == 'iconsext.exe':
+                zip_file.extract(name, path)
+                break
     os.remove(os.path.join(path, 'iconsext.zip'))
 
 
@@ -104,6 +102,7 @@ def main():
         os.mkdir('icons')
 
     script_path = os.path.dirname(os.path.abspath(__file__))
+
     if not os.path.exists(os.path.join(script_path, 'FileTypesMan.exe')):
         print('FileTypesMan.exe not found. Trying to download it.')
         download_filetypesman()
