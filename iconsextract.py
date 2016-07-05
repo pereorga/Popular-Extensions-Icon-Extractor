@@ -12,8 +12,6 @@ except ImportError:
     from urllib import urlretrieve
 
 # TODO:
-#   windows only                            --- implemented
-#   Python 3 support                        --- implemented
 #   Add output directory option
 #   better error and exception handling
 
@@ -90,7 +88,7 @@ def download_iconsext():
 
 def main():
     if platform.system().lower() != 'windows':
-        sys.stderr.write('This programm work only on Windows')
+        sys.stderr.write('Windows is required.')
         exit(1)
 
     if os.path.exists('icons') and os.listdir('icons'):
