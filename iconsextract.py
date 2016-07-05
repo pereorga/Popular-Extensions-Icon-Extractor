@@ -1,14 +1,19 @@
 import sys
 import os
+import platform
 import shutil
 import tempfile
 import zipfile
-import urllib
 from xml.dom.minidom import parse
 
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
+
 # TODO:
-#   windows only
-#   Python 3 support
+#   windows only                            --- implemented
+#   Python 3 support                        --- implemented
 #   Add output directory option
 #   better error and exception handling
 
@@ -63,7 +68,7 @@ def create_temp_directory():
 
 def download_filetypesman():
     path = os.path.dirname(os.path.abspath(__file__))
-    urllib.urlretrieve('http://www.nirsoft.net/utils/filetypesman.zip', os.path.join(path, 'filetypesman.zip'))
+    urlretrieve('http://www.nirsoft.net/utils/filetypesman.zip', os.path.join(path, 'filetypesman.zip'))
     zip_file = zipfile.ZipFile(os.path.join(path, 'filetypesman.zip'))
     for name in zip_file.namelist():
         if name.lower() == 'filetypesman.exe':
@@ -75,7 +80,7 @@ def download_filetypesman():
 
 def download_iconsext():
     path = os.path.dirname(os.path.abspath(__file__))
-    urllib.urlretrieve('http://www.nirsoft.net/utils/iconsext.zip', os.path.join(path, 'iconsext.zip'))
+    urlretrieve('http://www.nirsoft.net/utils/iconsext.zip', os.path.join(path, 'iconsext.zip'))
     zip_file = zipfile.ZipFile(os.path.join(path, 'iconsext.zip'))
     for name in zip_file.namelist():
         if name.lower() == 'iconsext.exe':
@@ -86,6 +91,10 @@ def download_iconsext():
 
 
 def main():
+    if platform.system().lower() != 'windows':
+        sys.stderr.write('This programm work only on Windows')
+        exit(1)
+
     if os.path.exists('icons') and os.listdir('icons'):
         sys.stderr.write("'icons' directory exists and is not empty. Please remove it first.\n")
         exit(1)
